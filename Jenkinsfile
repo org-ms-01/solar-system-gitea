@@ -10,11 +10,11 @@ pipeline {
 
         stage('Dependency Scanning') {
             parallel {
-                //stage('Run npm audit') {
-                 //   steps {
-                //        sh 'npm audit --audit-level=critical'
-                //    }
-               // }
+                stage('Run npm audit') {
+                    steps {
+                        sh 'npm audit --audit-level=critical'
+                    }
+                }
 
                 stage('OWASP Dependency Check') {
                     steps {
