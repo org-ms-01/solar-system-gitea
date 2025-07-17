@@ -1,6 +1,5 @@
 pipeline {
     agent any
-
     stages {
         stage('Install Dependencies') {
             steps {
@@ -22,9 +21,7 @@ pipeline {
                             --scan \'./\' 
                             --out \'./\' 
                             --format \'ALL\' 
-                            --prettyPrint
-                        ''', 
-                        odcInstallation: 'OWASP-DepCheck-10'
+                            --prettyPrint''', odcInstallation: 'OWASP-DepCheck-10'
                     }
                 }
             }
