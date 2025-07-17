@@ -1,5 +1,6 @@
 pipeline {
     agent any
+
     stages {
         stage('Install Dependencies') {
             steps {
@@ -7,7 +8,7 @@ pipeline {
             }
         }
 
-        stage('Depandency Scanning') {
+        stage('Dependency Scanning') {
             parallel {
                 stage('Run npm audit') {
                     steps {
@@ -18,10 +19,12 @@ pipeline {
                 stage('OWASP Dependency Check') {
                     steps {
                         dependencyCheck additionalArguments: '''
-                            --scan \'./\' 
-                            --out \'./\' 
-                            --format \'ALL\' 
-                            --prettyPrint''', odcInstallation: 'OWASP-DepCheck-10'
+                            --scan ./ 
+                            --out ./ 
+                            --format ALL 
+                            --prettyPrint
+                        ''', 
+                        odcInstallation: 'OWASP-DepCheck-10'
                     }
                 }
             }
