@@ -7,7 +7,8 @@ pipeline {
                 sh 'npm install --no-audit'
             }
         }
-
+        stage('Depandency Scanning'){
+            parallel {
         stage('Run npm audit') {
             steps {
                 sh 'npm audit --audit-level=critical'
@@ -23,5 +24,6 @@ pipeline {
                     --prettyPrint''', odcInstallation: 'OWASP-DepCheck-10'
             }
         }
-    }
+            }
+        }
 }
