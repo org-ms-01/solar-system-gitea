@@ -22,15 +22,8 @@ pipeline {
                     --format ALL 
                     --prettyPrint
                 ''', 
-                dcInstallation: 'OWASP-DepCheck-10'
+                odcInstallation: 'OWASP-DepCheck-10'
             }
-        }
-    }
-
-    post {
-        always {
-            archiveArtifacts artifacts: '**/dependency-check-report.*', fingerprint: true
-            dependencyCheckPublisher pattern: 'dependency-check-report.xml'
         }
     }
 }
