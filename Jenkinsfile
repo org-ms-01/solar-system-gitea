@@ -4,13 +4,16 @@ pipeline {
     stages {
         stage('Check Node and NPM Versions') {
             steps {
-                script {
-                    echo 'Checking Node.js version...'
-                    sh 'node -v'
-                    
-                    echo 'Checking npm version...'
-                    sh 'npm -v'
-                }
+                echo 'Checking Node.js and npm versions...'
+                sh 'node -v'
+                sh 'npm -v'
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                echo 'Installing npm dependencies (no audit)...'
+                sh 'npm install --no-audit'
             }
         }
     }
