@@ -19,6 +19,7 @@ pipeline {
                 stage('OWASP Dependency Check') {
                     steps {
                         dependencyCheck additionalArguments: '''
+                            --purge
                             --scan ./ 
                             --out ./ 
                             --format ALL 
