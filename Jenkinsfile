@@ -2,24 +2,35 @@ pipeline {
     agent any
 
     stages {
-        stage('Check Node and NPM Versions') {
-            steps {
-                sh 'node -v'
-                sh 'npm -v'
-            }
-        }
-
         stage('Install Dependencies') {
             steps {
                 sh 'npm install --no-audit'
             }
         }
 
-        stage('Audit for Critical Vulnerabilities') {
+        stage('Run npm audit') {
             steps {
-                echo 'Running npm audit for critical vulnerabilities...'
                 sh 'npm audit --audit-level=critical'
             }
+        }
+
+        stage('OWASP Dependency Check') {
+            steps {
+                dependencyCheck additionalArguments: '''
+                    --scan . 
+                    --out ./ 
+                    --format ALL 
+                    --prettyPrint
+                ''', 
+                dcInstallation: 'OWASP-DepCheck-10'
+            }
+        }
+    }
+
+    post {
+        always {
+            archiveArtifacts artifacts: '**/dependency-check-report.*', fingerprint: true
+            dependencyCheckPublisher pattern: 'dependency-check-report.xml'
         }
     }
 }
