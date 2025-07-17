@@ -19,10 +19,26 @@ pipeline {
                 stage('OWASP Dependency Check') {
                     steps {
                         dependencyCheck additionalArguments: '''
-                            --scan \'./\' 
-                            --out \'./\' 
-                            --format \'ALL\' 
-                            --prettyPrint''', odcInstallation: 'OWASP-Dependency-Check'
+                            --scan ./ 
+                            --out ./ 
+                            --format ALL 
+                            --prettyPrint
+                        ''',
+                        odcInstallation: 'OWASP-Dependency-Check'
+
+                        dependencyCheckPublisher failedTotalCritical: 1, 
+                                                 pattern: 'dependency-check-report.html', 
+                                                 stopBuild: true
+
+                        publishHTML([allowMissing: true, 
+                                     alwaysLinkToLastBuild: true, 
+                                     icon: '', 
+                                     keepAll: true, 
+                                     reportDir: './', 
+                                     reportFiles: 'dependency-check-jenkins.html', 
+                                     reportName: 'dependency-check HTML Report', 
+                                     reportTitles: '', 
+                                     useWrapperFileDirectly: true])
                     }
                 }
             }
