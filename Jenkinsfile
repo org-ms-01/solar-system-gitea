@@ -5,8 +5,8 @@ pipeline {
          MONGO_URI = "mongodb+srv://supercluster.d83jj.mongodb.net/superData"
     }
     options {
-         disableResume()
-        disableConcurrentBuilds abortPrvious: true
+        disableResume()
+        disableConcurrentBuilds(abortPrevious: true)
     }
     stages {
         stage('Install Dependencies') {
